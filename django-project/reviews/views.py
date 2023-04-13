@@ -1,20 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Review, Comment
-from . forms import ReviewForm, CommentForm
+from .forms import ReviewForm, CommentForm
 
 
 # Create your views here.
 def index(request):
-    reviews = Review.objects.all()
+    reviews = Review.objects.order_by('-pk')
     context = {
         'reviews' : reviews,
     }
     return render(request, 'reviews/index.html', context)
 
 
-def detail(request, pk):
-    review = Review.objects.get(pk=pk)
+def detail(request, review_pk):
+    review = Review.objects.get(pk=review_pk)
     comment_form = CommentForm()
     comments = review.comment_set.all()
     context = {
@@ -26,9 +26,9 @@ def detail(request, pk):
 
 
 @login_required
-def create(request):
+def new(request):
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = ReviewForm(request.POST, request.FILES)
         if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
@@ -39,7 +39,7 @@ def create(request):
     context = {
         'form' : form,
     }
-    return render(request, 'reviews/create.html', context)
+    return render(request, 'reviews/new.html', context)
 
 
 @login_required
@@ -47,42 +47,44 @@ def delete(request, review_pk):
     review = Review.objects.get(pk=review_pk)
     if request.user == review.user:
         review.delete()
-    return redirect('review:index')
+    return redirect('reviews:index')
 
 
 @login_required
-def update(request, review_pk):
+def edit(request, review_pk):
     review = Review.objects.get(pk=review_pk)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST, instance=review)
-        if form.is_valid():
-            form.save()
-            return redirect('review:detail', review.pk)
+    if request.user == review.user:
+        if request.method == 'POST':
+            form = ReviewForm(request.POST, request.FILES, instance=review)
+            if form.is_valid():
+                form.save()
+                return redirect('reviews:detail', review.pk)
         else:
             form = ReviewForm(instance=review)
     else:
-        return redirect('review:index')
+        return redirect('reviews:index')
     context = {
         'review' : review,
         'form' : form,
     }
-    return render(request, 'review/update.html', context)
+    return render(request, 'reviews/edit.html', context)
 
 
 def comment_create(request, review_pk):
-    review = Review.objects.get(pk=review_pk)
-    comment_form = CommentForm(request.POST)
-    if comment_form.is_valid():
-        comment = comment_form.save(commit=False)
-        comment.review = review
-        comment.user = request.user
-        comment.save()
-        return redirect('review:detail', review.pk)
-    context = {
-        'review' : review,
-        'comment_form' : comment_form,
-    }
-    return render(request, 'reviews/detail.html', context)
+    if request.method == "POST":
+        review = Review.objects.get(pk=review_pk)
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.review = review
+            comment.user = request.user
+            comment.save()
+            return redirect('reviews:detail', review.pk)
+        context = {
+            'review' : review,
+            'comment_form' : comment_form,
+        }
+        return render(request, 'reviews/detail.html', context)
 
 @login_required
 def comments_delete(request, review_pk, comment_pk):

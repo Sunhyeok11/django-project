@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
   {% if review.image %}
@@ -13,7 +13,7 @@
     {% csrf_token %}
     <input type="submit" value ="삭제">
   </form>
-  <a href="{% url 'reviews:update' review.pk %}">수정하기</a>
+  <a href="{% url 'reviews:edit' review.pk %}">수정하기</a>
   <hr>
   <form action="{% url 'reviews:comment_create' review.pk %}" method = "POST" >
     {% csrf_token %}
@@ -26,7 +26,7 @@
   {% for comment in comments  %}
     <p>댓글번호: {{ comment.pk }}</p>
     <p>댓글내용: {{ comment.content }}</p>
-    <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" method = "POST">
+    <form action="{% url 'reviews:comments_delete' review.pk comment.pk %}" method = "POST">
       {% csrf_token %}
       <input type="submit" value = '댓글삭제'>
     </form>

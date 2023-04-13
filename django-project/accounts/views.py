@@ -12,11 +12,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 @login_required
 def profile(request, user_pk):
     user = get_user_model().objects.get(pk=user_pk)
-
     context = {
         'user': user,
     }
-
     return render(request, 'accounts/profile.html', context)
 
 
@@ -64,11 +62,12 @@ def signup(request):
     }
     return render(request, 'accounts/signup.html', context)
 
+
 @login_required
 def delete(request):
     request.user.delete()
     auth_logout(request)
-    return redirect('accounts:index')
+    return redirect('reviews:index')
 
 
 
@@ -78,7 +77,7 @@ def update(request):
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('accounts:index')
+            return redirect('reviews:index')
     else:
         form = CustomUserChangeForm(instance=request.user)
     context = {
@@ -94,7 +93,7 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            return redirect('accounts:index')
+            return redirect('reviews:index')
     else:
         form = PasswordChangeForm(request.user)
     context = {
