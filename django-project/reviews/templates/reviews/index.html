@@ -2,7 +2,8 @@
 {% block content %}
   <h1>영화 리뷰 게시판</h1>
   {% if request.user.is_authenticated %}
-    <h2>반갑습니다. {{ user }}님 </h2>
+    <h2>반갑습니다. 
+      <a href="{% url 'accounts:profile' user.pk %}">{{ user }}</a>님 </h2>
     <form action="{% url 'accounts:logout' %}" method = 'POST'>
       {% csrf_token %}
       <input type="submit" value ='로그아웃'>

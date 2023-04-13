@@ -9,26 +9,30 @@
   <p>후기 내용: {{ review.content }}</p>
   <p>영화 내용: {{ review.movie }}</p>
   <a href="{% url 'reviews:index' %}">뒤로가기</a>
-  <form action="{% url 'reviews:delete' review.pk %}" method = 'POST'>
-    {% csrf_token %}
-    <input type="submit" value ="삭제">
-  </form>
-  <a href="{% url 'reviews:edit' review.pk %}">수정하기</a>
-  <hr>
-  <form action="{% url 'reviews:comment_create' review.pk %}" method = "POST" >
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <input type="submit" value = '댓글작성'>
-  </form>
+  {% if request.user == review.user %}
+    <form action="{% url 'reviews:delete' review.pk %}" method = 'POST'>
+      {% csrf_token %}
+      <input type="submit" value ="삭제">
+    </form>
+    <a href="{% url 'reviews:edit' review.pk %}">수정하기</a>
+    {% endif %}
+    <hr>
+    <form action="{% url 'reviews:comment_create' review.pk %}" method = "POST" >
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <input type="submit" value = '댓글작성'>
+    </form>
   <hr>
   <h3>다른 사람 리뷰보기</h3>
   <p>총 리뷰 개수 : {{ comments | length }}개</p>
   {% for comment in comments  %}
     <p>댓글번호: {{ comment.pk }}</p>
     <p>댓글내용: {{ comment.content }}</p>
-    <form action="{% url 'reviews:comments_delete' review.pk comment.pk %}" method = "POST">
-      {% csrf_token %}
-      <input type="submit" value = '댓글삭제'>
-    </form>
+    {% if request.user == comment.user %}
+      <form action="{% url 'reviews:comments_delete' review.pk comment.pk %}" method = "POST">
+        {% csrf_token %}
+        <input type="submit" value = '댓글삭제'>
+      </form>
+    {% endif %}
   {% endfor %}
 {% endblock content %}
