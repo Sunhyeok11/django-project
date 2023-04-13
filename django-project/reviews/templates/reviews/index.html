@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>영화 리뷰 게시판</h1>
+  {% if request.user.is_authenticated %}
+    <h2>반갑습니다. {{ user }}님 </h2>
+    <form action="{% url 'accounts:logout' %}" method = 'POST'>
+      {% csrf_token %}
+      <input type="submit" value ='로그아웃'>
+    </form>
+    {% else %}
+      <a href="{% url 'accounts:login' %}">로그인</a>
+      <a href="{% url 'accounts:signup' %}">회원가입</a>
+
+  {% endif %}
+  <a href="{% url 'reviews:create' %}">
+    <h3>새로운 게시글 작성하기</h3>
+  </a>
+  {% for review in reviews %}
+    <a href="{% url 'reviews:detail' review.pk %}">
+      <p>후기 번호: {{review.pk }}</p>
+    </a>
+    <p>후기 제목: {{review.title }}</p>
+    <hr>
+  {% endfor %}
+
+{% endblock content %}
+
