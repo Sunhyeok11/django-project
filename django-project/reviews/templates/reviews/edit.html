@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form action="{% url 'reviews:update' review.pk %}" method = 'POST' enctype = 'multipart/form-data'>
+    {% csrf_token %}
+    {{ review_form.as_p }}
+    <input type="submit" value = '게시글 작성'>
+  </form>
+  
+{% endblock content %}
