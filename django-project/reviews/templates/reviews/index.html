@@ -22,6 +22,12 @@
     <p>후기 제목: {{review.title }}</p>
     <hr>
   {% endfor %}
+  <a href="{% url 'reviews:genre' 'SF' %}">SF</a>
+  <a href="{% url 'reviews:genre' '멜로' %}">멜로</a>
+  <a href="{% url 'reviews:genre' '느와르' %}">느와르</a>
+  <a href="{% url 'reviews:genre' '액션' %}">액션</a>
+  <a href="{% url 'reviews:genre' '범죄스릴러' %}">범죄스릴러</a>
+
 
 {% endblock content %}
 
