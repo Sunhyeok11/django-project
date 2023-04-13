@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1> {{ user.username }}님의 프로필 페이지</h1>
+  <hr>
+  <h3>회원정보</h3>
+  <p>username: {{ user.username }}</p>
+  <p>email: {{ user.email }}</p>
+  <hr>
+  <h2>작성한 후기 목록</h2>
+  {% comment %} {% for  in  %}{% endfor %} {% endcomment %}
+  <a href="{% url 'reviews:index' %}">뒤로가기</a>
+{% endblock content %}
