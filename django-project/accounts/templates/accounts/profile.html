@@ -7,6 +7,9 @@
   <p>email: {{ user.email }}</p>
   <hr>
   <h2>작성한 후기 목록</h2>
-  {% comment %} {% for  in  %}{% endfor %} {% endcomment %}
+  {% for review in reviews  %}
+    <p>후기 번호: {{ review.pk }} </p>
+    <p>제목: {{ review.title }} </p>
+  {% endfor %}
   <a href="{% url 'reviews:index' %}">뒤로가기</a>
 {% endblock content %}
