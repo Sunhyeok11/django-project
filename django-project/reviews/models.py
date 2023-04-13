@@ -8,6 +8,7 @@ class Review(models.Model):
     content = models.TextField(null=False)
     movie = models.CharField(max_length=80)
     image = models.ImageField(blank=True, upload_to='')
+    genre = models.CharField(max_length=20)
 
 
 class Comment(models.Model):

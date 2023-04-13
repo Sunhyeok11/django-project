@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h4> 장르: {{ subject }} </h4>
+    {% for review in reviews %}
+        <ul>
+            <li>
+                <a href="{% url 'reviews:detail' review.pk %}">리뷰 - {{ review.pk }} / 장르 - {{ review.genre }}</a>
+            </li>
+        </ul>
+    {% endfor %}
+{% endblock content %}
