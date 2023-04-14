@@ -13,6 +13,24 @@ class CustomUserCreationForm(UserCreationForm):
             'password1',
             'password2',
         )
+    
+    username = forms.CharField(
+        label='아이디',
+        required=True,
+    )
+    email = forms.CharField(
+        label='이메일',
+        required=True,
+    )
+    password1 = forms.CharField(
+        label='비밀번호',
+        required=True,
+    )
+    password2 = forms.CharField(
+        label='비밀번호 확인',
+        required=True,
+    )
+    
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
 
