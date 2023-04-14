@@ -15,7 +15,7 @@ class ReviewForm(forms.ModelForm):
     )
     class Meta:
         model = Review
-        fields = '__all__'
+        exclude = ('user', )
 
 class CommentForm(forms.ModelForm):
     content = forms.CharField(widget=forms.TextInput())
