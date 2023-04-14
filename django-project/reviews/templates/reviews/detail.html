@@ -1,38 +1,61 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block style %}
+<style>
+  .img_middle {
+    width : 300px
+  }
+  div {
+    text-align: center;
+  }
+</style>
+{% endblock style %}
+
+
 {% block content %}
-  {% if review.image %}
-    <img src=" {{ review.image.url }}" alt="">
-  {% endif %}
-  <p>후기 번호: {{ review.pk }}</p>
-  <p>후기 제목: {{ review.title }}</p>
-  <p>후기 내용: {{ review.content }}</p>
-  <p>영화 내용: {{ review.movie }}</p>
-  <a href="{% url 'reviews:index' %}">뒤로가기</a>
-  {% if request.user == review.user %}
+  <div >
+    {% if review.image %}
+    <img src=" {{ review.image.url }}" class="img_middle" alt="#">
+    {% endif %}
+    <p>후기 번호: {{ review.pk }}</p>
+    <p>후기 제목: {{ review.title }}</p>
+    <p>후기 내용: {{ review.content }}</p>
+    <p>영화 내용: {{ review.movie }}</p>
+    <a href="{% url 'reviews:index' %}" class="btn btn-primary m-1">뒤로가기</a>
+    {% if request.user == review.user %}
     <form action="{% url 'reviews:delete' review.pk %}" method = 'POST'>
       {% csrf_token %}
-      <input type="submit" value ="삭제">
+      <input type="submit" class=" btn btn-danger m-1" value ="삭제">
     </form>
-    <a href="{% url 'reviews:edit' review.pk %}">수정하기</a>
+    <a href="{% url 'reviews:edit' review.pk %}" class="btn btn-primary mt-1">수정하기</a>
     {% endif %}
     <hr>
+  </div>
+  <div>
     <form action="{% url 'reviews:comment_create' review.pk %}" method = "POST" >
       {% csrf_token %}
       {{ comment_form.as_p }}
-      <input type="submit" value = '댓글작성'>
+      <input type="submit" class="btn btn-success" value = '댓글작성'>
     </form>
-  <hr>
-  <h3>다른 사람 리뷰보기</h3>
-  <p>총 리뷰 개수 : {{ comments | length }}개</p>
-  {% for comment in comments  %}
-    <p>댓글번호: {{ comment.pk }}</p>
+    <hr>
+    <h3>다른 사람 리뷰보기</h3>
+    <p>총 리뷰 개수 : {{ comments | length }}개</p>
+    {% for comment in comments  %}
+    <p>댓글번호: {{ comment.pk }}
+      {% if comment.user == review.user %}
+      (작성자)
+      {% endif %}
+    </p>
     <p>댓글내용: {{ comment.content }}</p>
+    <p>{{ comment.created_at }}</p>
     {% if request.user == comment.user %}
-      <form action="{% url 'reviews:comments_delete' review.pk comment.pk %}" method = "POST">
-        {% csrf_token %}
-        <input type="submit" value = '댓글삭제'>
-      </form>
-    {% endif %}
+    <form action="{% url 'reviews:comments_delete' review.pk comment.pk %}" method = "POST">
+      {% csrf_token %}
+      <input type="submit" class=" btn btn-danger" value = '댓글삭제'>
+      <hr>
+    </form>
+  {% endif %}
   {% endfor %}
+  </div>
 {% endblock content %}
