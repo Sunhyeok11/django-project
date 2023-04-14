@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>회원가입</h1>
-  <form action="{% url 'accounts:signup' %}" method = "POST">
-    {% csrf_token %}
-    {{ form.as_p}}
-    <input type="submit">
-  </form>
-
+<div class="container d-flex justify-content-center">
+  <ul class="nav flex-column">
+      <li class="nav-item">
+          <a href="#" class="fs-5 ms-3 text-light">회원가입</a>
+      </li>
+      <li class="nav-item">
+      <form action="{% url 'accounts:signup' %}" method="POST" class="nav-link" enctype = 'multipart/form-data'>
+          {% csrf_token %}
+          {{ form.as_p }}
+      <div class="container-fluid d-flex justify-content-end me-5 mt-3">
+          <input type="submit" class="btn btn-light">
+      </div>
+      </form>
+      </li>
+  </ul>
+</div>
 {% endblock content %}

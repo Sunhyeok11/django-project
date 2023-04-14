@@ -12,6 +12,7 @@ class CustomUserCreationForm(UserCreationForm):
             'last_name',
             'password1',
             'password2',
+            'image',
         )
     
     username = forms.CharField(
@@ -34,5 +35,11 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
-        fields = ('email', 'first_name', 'last_name',)
+        fields = ('email', 'first_name', 'last_name', 'image',)
+
+    def __init__(self, *args, **kwargs):
+        super(CustomUserChangeForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['email', 'first_name', 'last_name', 'image',]:
+            self.fields[fieldname].help_text = None
 
