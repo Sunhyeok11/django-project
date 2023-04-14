@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-
+from django import forms
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -22,14 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
         label='이메일',
         required=True,
     )
-    password1 = forms.CharField(
-        label='비밀번호',
-        required=True,
-    )
-    password2 = forms.CharField(
-        label='비밀번호 확인',
-        required=True,
-    )
+
     
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
