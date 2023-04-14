@@ -17,11 +17,11 @@
     <h3>새로운 게시글 작성하기</h3>
   </a>
   {% for review in reviews %}
-    <a href="{% url 'reviews:detail' review.pk %}">
-      <p>후기 번호: {{review.pk }}</p>
-    </a>
-    <p>후기 제목: {{review.title }}</p>
-    <hr>
+  <nav class="navbar border border-4 border-warning-subtle mt-2" style="border-radius: 0.5rem;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'reviews:detail' review.pk %}">{{ review.image }} {{review.title }} / {{ review.content }} ({{ comments | length }})</a>
+    </div>
+  </nav>
   {% endfor %}
   <a href="{% url 'reviews:genre' 'SF' %}">SF</a>
   <a href="{% url 'reviews:genre' '멜로' %}">멜로</a>
