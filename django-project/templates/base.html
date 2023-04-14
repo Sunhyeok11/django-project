@@ -21,10 +21,24 @@
     }
   </style>
   <body>
-    {% block content %}
+    <header>
+      나브바
+    </header>
+    
+    <main>
+      사이드바
 
-    {% endblock content %}
+      {% block content %}
 
+      {% endblock content %}
+  
+    </main>
+
+    <footer>
+      copyright
+    </footer>
+
+   
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
