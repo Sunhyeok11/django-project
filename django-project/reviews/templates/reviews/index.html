@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1>영화 리뷰 게시판</h1>
+  <h1 class="mt-5">영화 리뷰 게시판</h1>
   {% if request.user.is_authenticated %}
-    <h2>반갑습니다. 
+    <h2 class="mt-2">반갑습니다. 
       <a href="{% url 'accounts:profile' user.pk %}">{{ user }}</a>님 </h2>
   {% endif %}
   <a href="{% url 'reviews:new' %}">
-    <h3>새로운 게시글 작성하기</h3>
+    <h3 class="mt-5 mb-5">새로운 게시글 작성하기</h3>
   </a>
   {% for review in reviews %}
-  <nav class="navbar border border-4 border-warning-subtle mt-2" style="border-radius: 0.5rem;">
+  <nav class="navbar border border-4 border-warning-subtle mt-4" style="border-radius: 0.5rem;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'reviews:detail' review.pk %}">{{ review.image }} {{review.title }} / {{ review.content }} ({{ comments | length }})</a>
+      <a class="navbar-brand text-truncate" href="{% url 'reviews:detail' review.pk %}">
+        {% if review.image %}
+        <img src=" {{ review.image.url }}" class="img_middle me-4" alt="#" style="width: 6rem; height: 4rem;">
+        {% endif %} {{review.title }} / {{ review.content }} ({{ comments | length }})
+      </a>
     </div>
   </nav>
   {% endfor %}
 
 {% endblock content %}
+
+ 
