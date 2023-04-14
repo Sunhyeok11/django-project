@@ -7,7 +7,7 @@ class Review(models.Model):
     title = models.CharField(max_length=80)
     content = models.TextField(null=False)
     movie = models.CharField(max_length=80)
-    image = models.ImageField(blank=True, upload_to='')
+    image = models.ImageField(blank=True, upload_to='%y/%m/%d/')
     genre = models.CharField(max_length=20)
 
 
