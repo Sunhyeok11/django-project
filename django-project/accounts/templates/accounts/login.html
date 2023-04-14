@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>로그인</h1>
-  <form action="{% url 'accounts:login' %}" method = "POST">
-    {% csrf_token %}
-    {{ form.as_p}}
-    <input type="submit">
-  </form>
+<div class="container d-flex justify-content-center">
+  <div class="container">
+    <h1 class='text-center mt-5'>로그인</h1>
+  </div>
+  <div class="container">
+    <form action="{% url 'accounts:login' %}" method="POST">
+        {% csrf_token %}
+        {% for field in form  %}
+        <div calss="input-group">
+            <div class="input-gourp-text" id="{{ field.auto_id }}">{{ field.label }}</div>
+            {{ field }}
+        </div>
+        <br>
+        {% endfor %}
+        <div class="container-fluid d-flex justify-content-center ms-5 mt-1">
+            <input type="submit" class="btn btn-light"  role="button">
+        </div>
+    </form>
+  </div>
+</div>
 {% endblock content %}

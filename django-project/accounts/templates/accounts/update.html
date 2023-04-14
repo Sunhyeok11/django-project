@@ -2,9 +2,11 @@
 
 {% block content  %}
   <h2>회원정보수정</h2>
-  <form action="{% url 'accounts:update' %}" method ="POST">
+  <form action="{% url 'accounts:update' %}" method ="POST" enctype = 'multipart/form-data'>
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value ='등록'>
+    <div class="container-fluid d-flex justify-content-end me-5 mt-3">
+      <input type="submit" class="btn btn-outline-primary">
+    </div>
   </form>
 {% endblock content %}
