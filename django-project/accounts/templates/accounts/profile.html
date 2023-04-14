@@ -10,7 +10,7 @@
           <div class="container d-flex justify-content-center">
               <div style="width: 10rem; height: 10rem;">
                 {% if user.image %}
-                  <img src="{{ user.image.url }}" alt=" " style="width: 10rem; height: 10rem;">
+                  <img src="{{ user.image.url }}" alt="없음" style="width: 10rem; height: 10rem;">
                 {% endif %}
                 </div>
           </div>
@@ -28,9 +28,10 @@
         </div>
       </div>
       <hr>
-      <div class="container d-flex justify-content-center">
+      <div class="container">
         <h2>작성한 후기 목록</h2>
         {% for review in reviews  %}
+          <hr>
           <p>후기 번호: {{ review.pk }} </p>
           <p>제목: {{ review.title }} </p>
         {% endfor %}

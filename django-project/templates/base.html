@@ -12,9 +12,16 @@
     {% block style %}{% endblock style %}
   </head>
   <style>
+    html {
+        height: 100%;
+        width: 100%;
+    }
     body {
       font-family: 'Noto Sans JP', sans-serif;
       font-family: 'Noto Sans KR', sans-serif;
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
     }
     a {
       text-decoration: none;
@@ -23,50 +30,48 @@
   <body>
     <header>
       <nav class="navbar navbar-expand-lg bg-body-tertiary ">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="{% url 'reviews:index' %}">
-            {% comment %} 로고넣기 {% endcomment %}
-            <img src="" alt="로고" width="30" height="24"></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-{% comment %} 로그인 로그아웃 오른쪽 정렬 하기 {% endcomment %}
-              {% if request.user.is_authenticated %}
-              <form action="{% url 'accounts:logout' %}" method = 'POST'>
-                {% csrf_token %}
-                <input class="btn btn-light" type="submit" value ='LogOut'>
-              </form>
-              {% else %}
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}">LogIn</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'accounts:signup' %}">SingUp</a>
-                </li>
-              {% endif %}
+        <div class="container-fluid d-flex">
+            <a class="navbar-brand" href="{% url 'reviews:index' %}">
+             영화가 좋아</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
 
-              <li class="nav-item dropdown d-block d-lg-none">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Genre
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'reviews:genre' 'SF' %}">SF</a></li>
-                  <li><a class="dropdown-item" href="{% url 'reviews:genre' '멜로' %}">멜로</a></li>
-                  <li><a class="dropdown-item" href="{% url 'reviews:genre' '느와르' %}">느와르</a></li>
-                  <li><a class="dropdown-item" href="{% url 'reviews:genre' '액션' %}">액션</a></li>
-                  <li><a class="dropdown-item" href="{% url 'reviews:genre' '범죄스릴러' %}">범죄스릴러</a></li>
-            
-                </ul>
-              </li>
-            </ul>
-          </div>
+            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+              <ul class="navbar-nav mb-2 mb-lg-0">
+              {% comment %} 로그인 로그아웃 오른쪽 정렬 하기 {% endcomment %}
+                {% if request.user.is_authenticated %}
+                <form action="{% url 'accounts:logout' %}" method = 'POST'>
+                  {% csrf_token %}
+                  <input class="btn btn-light" type="submit" value ='LogOut'>
+                </form>
+                {% else %}
+                  <li class="nav-item me-4">
+                    <a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}">LogIn</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:signup' %}">SingUp</a>
+                  </li>
+                {% endif %}
+                <li class="nav-item dropdown d-block d-lg-none">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Genre
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'reviews:genre' 'SF' %}">SF</a></li>
+                    <li><a class="dropdown-item" href="{% url 'reviews:genre' '멜로' %}">멜로</a></li>
+                    <li><a class="dropdown-item" href="{% url 'reviews:genre' '느와르' %}">느와르</a></li>
+                    <li><a class="dropdown-item" href="{% url 'reviews:genre' '액션' %}">액션</a></li>
+                    <li><a class="dropdown-item" href="{% url 'reviews:genre' '범죄스릴러' %}">범죄스릴러</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
         </div>
       </nav>
     </header>
     
-    <main>
+    <main class="container-fluid">
       <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark d-none d-lg-block " style="width: 280px; position: fixed; bottom: 30px;  right: 30px">
         <a href="{% url 'reviews:index' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
           <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
@@ -85,7 +90,9 @@
         <div class="dropdown">
           <a  class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             {% comment %} 프로필 사진  {% endcomment %}
-            <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+            {% if user.image %}
+            <img src="{{ user.image.url }}" alt="없엉 ㅎ" width="32" height="32" class="rounded-circle me-2">
+            {% endif %}
             <strong>{{ user }}</strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
@@ -101,15 +108,15 @@
           </ul>
         </div>
       </div>
-      <div class="container" style="height: 1000px">
+      <div class="container" style="height: 100%;">
         {% block content %}
+
         {% endblock content %}
       </div>
-  
     </main>
 
-    <footer class="footer mb-0 py-3 bg-light">
-      <div class="container">
+    <footer class="footer mb-0 py-1 bg-light text-center" style="position: fixed; bottom: 0px; width: 100%">
+      <div class="container text-center">
         <span class="text-muted"> Copyright 2023. 홍순혁,이정일,김민선. All rights reserved. </span>
       </div>
     </footer>
