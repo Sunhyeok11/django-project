@@ -14,6 +14,9 @@
 
 
 {% block content %}
+  {% if review.genre == '멜로' %}
+  <p>melro</p>
+  {% endif %}
   <div >
     {% if review.image %}
     <img src=" {{ review.image.url }}" class="img_middle" alt="#">
