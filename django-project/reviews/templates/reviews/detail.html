@@ -4,19 +4,18 @@
 {% block style %}
 <style>
   .img_middle {
-    width : 300px
+    width : 500px
   }
   div {
     text-align: center;
   }
+  body {
+    background-image:url("DJANGO-PROJECT/배경예시.png")
+  }
 </style>
 {% endblock style %}
 
-
 {% block content %}
-  {% if review.genre == '멜로' %}
-  <p>melro</p>
-  {% endif %}
   <div >
     {% if review.image %}
     <img src=" {{ review.image.url }}" class="img_middle" alt="#">
@@ -25,13 +24,13 @@
     <p>후기 제목: {{ review.title }}</p>
     <p>후기 내용: {{ review.content }}</p>
     <p>영화 내용: {{ review.movie }}</p>
-    <a href="{% url 'reviews:index' %}" class="btn btn-primary m-1">뒤로가기</a>
+    <a href="{% url 'reviews:index' %}" class="btn btn-outline-primary m-1">뒤로가기</a>
     {% if request.user == review.user %}
     <form action="{% url 'reviews:delete' review.pk %}" method = 'POST'>
       {% csrf_token %}
-      <input type="submit" class=" btn btn-danger m-1" value ="삭제">
+      <input type="submit" class=" btn btn-outline-danger m-1" value ="삭제">
     </form>
-    <a href="{% url 'reviews:edit' review.pk %}" class="btn btn-primary mt-1">수정하기</a>
+    <a href="{% url 'reviews:edit' review.pk %}" class="btn btn-outline-primary mt-1">수정하기</a>
     {% endif %}
     <hr>
   </div>
@@ -39,7 +38,7 @@
     <form action="{% url 'reviews:comment_create' review.pk %}" method = "POST" >
       {% csrf_token %}
       {{ comment_form.as_p }}
-      <input type="submit" class="btn btn-success" value = '댓글작성'>
+      <input type="submit" class="btn btn-outline-success" value = '댓글작성'>
     </form>
     <hr>
     <h3>다른 사람 리뷰보기</h3>
@@ -55,7 +54,7 @@
     {% if request.user == comment.user %}
     <form action="{% url 'reviews:comments_delete' review.pk comment.pk %}" method = "POST">
       {% csrf_token %}
-      <input type="submit" class=" btn btn-danger" value = '댓글삭제'>
+      <input type="submit" class=" btn btn-outline-danger" value = '댓글삭제'>
       <hr>
     </form>
   {% endif %}
